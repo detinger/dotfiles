@@ -13,6 +13,9 @@ fpath=(
   $fpath
 )
 
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{A-Z}={a-z}'
+
+
 autoload -Uz compinit
 compinit -C
 
