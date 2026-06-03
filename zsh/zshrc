@@ -1,0 +1,83 @@
+# Fast, clean macOS Zsh setup
+
+# PATH
+export PATH="$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH="$PATH:$HOME/.lmstudio/bin"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+DEFAULT_USER=$(whoami)
+
+# Completions
+fpath=(
+  /opt/homebrew/share/zsh/site-functions
+  $fpath
+)
+
+autoload -Uz compinit
+compinit -C
+
+# Antidote plugins
+source "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh"
+
+[[ ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh ]] && \
+  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+
+source ~/.zsh_plugins.zsh
+
+# fzf
+source <(fzf --zsh)
+
+# zoxide: smarter cd
+eval "$(zoxide init zsh)"
+
+# Starship prompt
+eval "$(starship init zsh)"
+
+# ls / eza
+alias ls='eza'
+alias l='eza -lah'
+alias la='eza -lAh'
+alias ll='eza -lh --git'
+alias lsa='eza -lah'
+alias lt='eza --tree --level=2'
+
+# directories
+alias c='z'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias -- -='cd -'
+
+# git
+alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gb='git branch'
+alias gba='git branch --all'
+alias gc='git commit'
+alias gca='git commit --all'
+alias gcam='git commit --all --message'
+alias gcm='git commit --message'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gd='git diff'
+alias gl='git pull'
+alias gp='git push'
+alias gst='git status'
+alias gss='git status --short'
+alias glog='git log --oneline --decorate --graph'
+alias gm='git merge'
+alias gr='git remote'
+alias grv='git remote --verbose'
+alias grb='git rebase'
+alias gsta='git stash push'
+alias gstp='git stash pop'
+
+# brew
+alias brews='brew list'
+alias bubu='brew update && brew upgrade'
+alias bubc='brew cleanup'
+
+# tree
+alias tree='tree -a -h -C -N -L 1'
