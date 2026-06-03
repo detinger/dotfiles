@@ -22,7 +22,5 @@ if [ -f "$DOTFILES_DIR/starship/starship.toml" ]; then
   ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 fi
 
-source "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh"
-antidote bundle < "$HOME/.zsh_plugins.txt" > "$HOME/.zsh_plugins.zsh"
 
 echo "Done. Run: exec zsh"
