@@ -17,10 +17,13 @@ mkdir -p "$HOME/.config"
 
 ln -sf "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
 ln -sf "$DOTFILES_DIR/zsh/zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
+ln -sf "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 
 if [ -f "$DOTFILES_DIR/starship/starship.toml" ]; then
   ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 fi
 
 
-echo "Done. Run: exec zsh"
+echo "Done."
+echo "Run: exec zsh"
+

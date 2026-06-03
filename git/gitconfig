@@ -1,0 +1,21 @@
+[user]
+    name = Darko Etinger
+    email = darko.etinger@gmail.com
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[push]
+    autoSetupRemote = true
+
+[core]
+    editor = code --wait
+
+[credential]
+    helper = osxkeychain
+
+[color]
+    ui = auto
