@@ -1,51 +1,53 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Inserts a blank line between shell prompts (default: true)
 add_newline = false
 
-format = """
-[](#A3BE8C)\
-[](bg:#5E81AC fg:#A3BE8C)\
+
+format = """\
+[](bg:transparent fg:#7DF9AA)\
+[󰀵 ](bg:#7DF9AA fg:#090c0c)\
+[](fg:#7DF9AA bg:#1C3A5E)\
+$time\
+[](fg:#1C3A5E bg:#3B76F0)\
 $directory\
-[](fg:#5E81AC bg:#A3BE8C)\
+[](fg:#3B76F0 bg:#FCF392)\
 $git_branch\
 $git_status\
-[ ](fg:#A3BE8C bg:transparent)\
+$git_metrics\
+[ ](fg:#FCF392 bg:transparent)\
 """
 
-
 [directory]
-style = "fg:#2E3440 bg:#5E81AC"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
-
-[directory.substitutions]
-# "Documents" = "󰈙 "
-# "Downloads" = " "
-# "Music" = " "
-# "Pictures" = " "
-# "Desktop" = "󰟀 "
+format = "[   $path ]($style)"
+style = "fg:#E4E4E4 bg:#3B76F0"
 
 [git_branch]
-symbol = ""
-style = "fg:#2E3440 bg:#A3BE8C"
-format = '[ $symbol $branch ]($style)'
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = "  "
+style = "fg:#1C3A5E bg:#FCF392"
 
 [git_status]
-style = "fg:#2E3440 bg:#A3BE8C"
-format = '[$all_status$ahead_behind ]($style)'
+format = '[$all_status]($style)'
+style = "fg:#1C3A5E bg:#FCF392"
 
-[username]
-disabled = true
+[git_metrics]
+format = "([+$added]($added_style))[]($added_style)"
+added_style = "fg:#1C3A5E bg:#FCF392"
+deleted_style = "fg:bright-red bg:235"
+disabled = false
 
-[hostname]
-disabled = true
-
-[os]
-disabled = true
-
-[time]
-disabled = true
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
 
 [character]
-disabled = true
+success_symbol = '[➜](fg:#E4E4E4 bg:#3B76F0)'
+error_symbol = '[✗](fg:#E4E4E4 bg:#3B76F0)'
+format = '$symbol'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#1d2230"
+format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
