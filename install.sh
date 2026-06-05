@@ -23,6 +23,9 @@ if [ -f "$DOTFILES_DIR/starship/starship.toml" ]; then
   ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 fi
 
+if [ -f "$DOTFILES_DIR/starship/starship-vscode.toml" ]; then
+  ln -sf "$DOTFILES_DIR/starship/starship-vscode.toml" "$HOME/.config/starship-vscode.toml"
+fi
 
 echo "Done."
 echo "Run: exec zsh"
