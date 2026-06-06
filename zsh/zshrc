@@ -36,14 +36,18 @@ setopt SHARE_HISTORY
 autoload -Uz compinit
 compinit -C
 
+
 # Antidote plugins
+
 source "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh"
 
-[[ ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh ]] && \
+if [[ ! -f ~/.zsh_plugins.zsh || ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh ]]; then
   antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
-
+fi
 
 source ~/.zsh_plugins.zsh
+
+
 eval "$(zoxide init zsh)"
 
 
