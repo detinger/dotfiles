@@ -10,8 +10,6 @@ brew "btop"
 brew "cmake"
 # Command-line interface for SQLite
 brew "sqlite"
-# Bash, Zsh and Fish completion for Docker
-brew "docker-completion"
 # Modern, maintained replacement for ls
 brew "eza"
 # Like neofetch, but much faster because written mostly in C
@@ -40,8 +38,6 @@ brew "gnuplot"
 brew "graphviz"
 # Improved top (interactive process viewer)
 brew "htop"
-# C/C++ and Java libraries for Unicode and globalization
-brew "icu4c@76"
 # Tools and libraries to manipulate images in select formats
 brew "imagemagick"
 # Kubernetes CLI To Manage Your Clusters In Style!
@@ -52,6 +48,8 @@ brew "kubernetes-cli"
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.14"
 # Next-gen compiler infrastructure
 brew "llvm"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
@@ -78,12 +76,8 @@ brew "pipx"
 brew "pkgconf"
 # PDF rendering library (based on the xpdf-3.0 code base)
 brew "poppler"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.13"
 # Tools for and transforming and inspecting PDF files
 brew "qpdf"
-# Command-line interface for https://speedtest.net bandwidth tests
-brew "speedtest-cli"
 # Cross-shell prompt for astronauts
 brew "starship"
 # Terminal multiplexer
@@ -174,3 +168,44 @@ cask "wezterm"
 cask "zed"
 # Collect, organise, cite, and share research sources
 cask "zotero"
+vscode "adpyke.codesnap"
+vscode "anthropic.claude-code"
+vscode "arcticicestudio.nord-visual-studio-code"
+vscode "atian25.copy-syntax"
+vscode "brunnerh.insert-unicode"
+vscode "chrischinchilla.vscode-pandoc"
+vscode "continue.continue"
+vscode "csholmq.excel-to-markdown-table"
+vscode "docker.docker"
+vscode "donjayamanne.githistory"
+vscode "enkia.tokyo-night"
+vscode "esbenp.prettier-vscode"
+vscode "george-alisson.html-preview-vscode"
+vscode "google.geminicodeassist"
+vscode "grapecity.gc-excelviewer"
+vscode "humao.rest-client"
+vscode "jeff-hykin.polacode-2019"
+vscode "jock.svg"
+vscode "marp-team.marp-vscode"
+vscode "mdickin.markdown-shortcuts"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-dotnettools.vscode-dotnet-modernize"
+vscode "ms-dotnettools.vscode-dotnet-runtime"
+vscode "ms-python.debugpy"
+vscode "ms-python.isort"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode.hexeditor"
+vscode "nhoizey.gremlins"
+vscode "openai.chatgpt"
+vscode "shd0w.obsidianite-vscode"
+vscode "shd101wyy.markdown-preview-enhanced"
+vscode "shuworks.vscode-table-formatter"
+vscode "streetsidesoftware.code-spell-checker"
+vscode "stxr.iconfont-preview"
+vscode "vscode-icons-team.vscode-icons"
+vscode "yzhang.markdown-all-in-one"
+npm "nord"
