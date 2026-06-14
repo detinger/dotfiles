@@ -168,6 +168,8 @@ cask "wezterm"
 cask "zed"
 # Collect, organise, cite, and share research sources
 cask "zotero"
+# Reaper is a complete digital audio production application for Windows and macOS
+cask "reaper"
 vscode "adpyke.codesnap"
 vscode "anthropic.claude-code"
 vscode "arcticicestudio.nord-visual-studio-code"
@@ -208,4 +210,3 @@ vscode "streetsidesoftware.code-spell-checker"
 vscode "stxr.iconfont-preview"
 vscode "vscode-icons-team.vscode-icons"
 vscode "yzhang.markdown-all-in-one"
-npm "nord"
