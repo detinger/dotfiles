@@ -55,9 +55,10 @@ if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
     eval "$(starship init zsh)"
 fi
 
-if [[ "$TERM_PROGRAM" == "vscode" ]]; then
-    export STARSHIP_CONFIG="$HOME/.config/starship-vscode.toml"
+if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+    eval "$(starship init zsh)"
 fi
+
 
 
 # fzf
@@ -110,3 +111,5 @@ alias bubc='brew cleanup'
 
 # tree
 alias tree='tree -a -h -C -N -L 1'
+
+export HOMEBREW_NO_ASK=1
