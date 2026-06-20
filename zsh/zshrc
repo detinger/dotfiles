@@ -68,9 +68,12 @@ source <(fzf --zsh)
 alias ls='eza'
 alias l='eza -lah'
 alias la='eza -lAh'
-alias ll='eza -lh --git'
-alias lsa='eza -lah'
-alias lt='eza --tree --level=2'
+alias ll='eza -lah --icons --git --group-directories-first'
+alias lt='eza -lah --icons --git --sort=modified --group-directories-first'
+alias tree='eza -T --icons --git'
+alias tree1='eza -T --icons --git --level=1'
+alias tree2='eza -T --icons --git --level=2'
+alias tree3='eza -T --icons --git --level=3'
 
 # directories
 alias c='z'
@@ -107,9 +110,23 @@ alias gstp='git stash pop'
 # brew
 alias brews='brew list'
 alias bubu='brew update && brew upgrade'
-alias bubc='brew cleanup'
+alias bcbc='brew cleanup --prune=all'
 
-# tree
-alias tree='tree -a -h -C -N -L 1'
+# file handling
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias zshrc='${=EDITOR} ~/.zshrc'
+alias dud='du -d 1 -h'
+command -v duf >/dev/null 2>&1 || alias duf='du -sh'
+alias t='tail -f'
 
+# other aliases
+alias h='history'
+alias hgrep='fc -El 0 | grep'
+alias help='man'
+alias p='ps -f'
+
+# environment variables
 export HOMEBREW_NO_ASK=1
+export EDITOR="code --wait"
