@@ -98,12 +98,8 @@ brew "yt-dlp"
 brew "zoxide"
 # UNIX shell (command interpreter)
 brew "zsh"
-# Fish-like fast/unobtrusive autosuggestions for zsh
-brew "zsh-autosuggestions"
 # Additional completion definitions for zsh
 brew "zsh-completions"
-# Fish shell like syntax highlighting for zsh
-brew "zsh-syntax-highlighting"
 # Converts video, audio and images
 cask "adapter"
 # View, print, and comment on PDF documents
@@ -150,8 +146,6 @@ cask "ollama-app"
 cask "onlyoffice"
 # Move and resize windows using keyboard shortcuts or snap areas
 cask "rectangle"
-# All-in-one live streaming software
-cask "streamlabs"
 # Remote access and connectivity software focused on security
 cask "teamviewer"
 # Messaging app with a focus on speed and security

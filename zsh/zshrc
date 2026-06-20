@@ -51,15 +51,15 @@ source ~/.zsh_plugins.zsh
 eval "$(zoxide init zsh)"
 
 
-if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-    eval "$(starship init zsh)"
-fi
-
-if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-    eval "$(starship init zsh)"
+if [[ "$TERM_PROGRAM" != "Apple_Terminal" && "$TERM_PROGRAM" != "vscode" ]]; then
+  eval "$(starship init zsh)"
 fi
 
 
+# environment variables
+export HOMEBREW_NO_ASK=1
+export EDITOR="code --wait"
+export VISUAL="$EDITOR"
 
 # fzf
 source <(fzf --zsh)
@@ -127,6 +127,3 @@ alias hgrep='fc -El 0 | grep'
 alias help='man'
 alias p='ps -f'
 
-# environment variables
-export HOMEBREW_NO_ASK=1
-export EDITOR="code --wait"
