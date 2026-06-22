@@ -41,12 +41,12 @@ compinit -C
 
 source "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh"
 
-if [[ ! -f ~/.zsh_plugins.zsh || ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh ]]; then
+if [[ ! -f ~/.zsh_plugins.zsh || ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh || ! -d ~/Library/Caches/antidote ]]; then
+  rm -f ~/.zsh_plugins.zsh ~/.zsh_plugins.zsh.zwc
   antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 fi
 
 source ~/.zsh_plugins.zsh
-
 
 eval "$(zoxide init zsh)"
 
