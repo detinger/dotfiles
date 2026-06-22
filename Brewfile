@@ -52,6 +52,8 @@ brew "lazygit"
 brew "python@3.14"
 # Next-gen compiler infrastructure
 brew "llvm"
+# Backup your application settings and other important files to the cloud
+brew "mackup"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
 # Run a Kubernetes cluster locally

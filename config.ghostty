@@ -1,0 +1,32 @@
+theme = "TokyoNight Night"
+
+font-size = 19
+font-family = "SF Mono"
+
+window-height = 50
+window-width = 140
+
+working-directory = ~/Desktop
+
+window-padding-x = 8
+window-padding-y = 4
+
+adjust-cell-height = 15%
+
+cursor-style = block
+cursor-style-blink = true
+
+copy-on-select = true
+shell-integration = detect
+scrollback-limit = 100000
+mouse-hide-while-typing = true
+
+clipboard-read = allow
+clipboard-write = allow
+confirm-close-surface = false
+
+background-opacity = 1.0
+background-blur-radius = 24
+
+macos-titlebar-style = transparent
+
