@@ -26,8 +26,8 @@ brew "fzf"
 brew "gcc"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
-# Interact with Google Gemini AI models from the command-line
-brew "gemini-cli"
+# Interact with Google AI models from the command-line
+brew "antigravity-cli"
 # GitHub command-line tool
 brew "gh"
 # Distributed revision control system
