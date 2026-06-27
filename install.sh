@@ -27,6 +27,9 @@ if [ -f "$DOTFILES_DIR/starship/starship-vscode.toml" ]; then
   ln -sf "$DOTFILES_DIR/starship/starship-vscode.toml" "$HOME/.config/starship-vscode.toml"
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+"$SCRIPT_DIR/scripts/install-latex.zsh"
+
 echo "Done."
 echo "Run: exec zsh"
 
