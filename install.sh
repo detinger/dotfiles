@@ -85,35 +85,38 @@ install_latex() {
 printf "\n%sDotfiles installer%s\n" "$bold" "$reset"
 printf "Choose which components to install:\n\n"
 
-typeset -A install_map
+do_brew=0
+do_zsh=0
+do_git=0
+do_starship=0
+do_ghostty=0
+do_latex=0
 
-ask "  Homebrew packages (Brewfile)"  "Y" && install_map[brew]=1     || install_map[brew]=0
-ask "  Zsh config (.zshrc)"           "Y" && install_map[zsh]=1      || install_map[zsh]=0
-ask "  Git config (.gitconfig)"       "Y" && install_map[git]=1      || install_map[git]=0
-ask "  Starship prompt"               "Y" && install_map[starship]=1  || install_map[starship]=0
-ask "  Ghostty config"                "Y" && install_map[ghostty]=1   || install_map[ghostty]=0
-ask "  LaTeX packages (tlmgr)"        "N" && install_map[latex]=1    || install_map[latex]=0
+ask "  Homebrew packages (Brewfile)"  "Y" && do_brew=1
+ask "  Zsh config (.zshrc)"           "Y" && do_zsh=1
+ask "  Git config (.gitconfig)"       "Y" && do_git=1
+ask "  Starship prompt"               "Y" && do_starship=1
+ask "  Ghostty config"                "Y" && do_ghostty=1
+ask "  LaTeX packages (tlmgr)"        "N" && do_latex=1
 
 # ── summary + confirm ─────────────────────────────────────────────────────────
 printf "\n%sSelected components:%s\n" "$bold" "$reset"
-labels=(
-  "brew:Homebrew packages"
-  "zsh:Zsh config"
-  "git:Git config"
-  "starship:Starship prompt"
-  "ghostty:Ghostty config"
-  "latex:LaTeX packages"
-)
 any=0
-for entry in "${labels[@]}"; do
-  key="${entry%%:*}" label="${entry##*:}"
-  if [ "${install_map[$key]}" -eq 1 ]; then
+show_component() {
+  local flag="$1" label="$2"
+  if [ "$flag" -eq 1 ]; then
     printf "  %s✓ %s%s\n" "$green" "$label" "$reset"
     any=1
   else
     printf "  %s- %s%s\n" "$yellow" "$label" "$reset"
   fi
-done
+}
+show_component "$do_brew"     "Homebrew packages"
+show_component "$do_zsh"      "Zsh config"
+show_component "$do_git"      "Git config"
+show_component "$do_starship" "Starship prompt"
+show_component "$do_ghostty"  "Ghostty config"
+show_component "$do_latex"    "LaTeX packages"
 
 if [ "$any" -eq 0 ]; then
   echo "Nothing selected. Exiting."
@@ -126,21 +129,21 @@ ask "Proceed with installation?" "Y" || { echo "Aborted."; exit 0; }
 mkdir -p "$HOME/.config"
 
 # ── run selected components ───────────────────────────────────────────────────
-run_component() {
-  local fn="$1" label="$2" key="$3"
-  if [ "${install_map[$key]}" -eq 1 ]; then
+run_if() {
+  local flag="$1" fn="$2" label="$3"
+  if [ "$flag" -eq 1 ]; then
     $fn || error "$label"
   else
     skip "$label"
   fi
 }
 
-run_component install_homebrew_packages "Homebrew packages" brew
-run_component install_zsh               "Zsh config"        zsh
-run_component install_git               "Git config"        git
-run_component install_starship          "Starship prompt"   starship
-run_component install_ghostty           "Ghostty config"    ghostty
-run_component install_latex             "LaTeX packages"    latex
+run_if "$do_brew"     install_homebrew_packages "Homebrew packages"
+run_if "$do_zsh"      install_zsh               "Zsh config"
+run_if "$do_git"      install_git               "Git config"
+run_if "$do_starship" install_starship           "Starship prompt"
+run_if "$do_ghostty"  install_ghostty            "Ghostty config"
+run_if "$do_latex"    install_latex              "LaTeX packages"
 
 printf "\n%sDone.%s\n" "$bold$green" "$reset"
-[ "${install_map[zsh]}" -eq 1 ] && echo "Run: exec zsh"
+[ "$do_zsh" -eq 1 ] && echo "Run: exec zsh"
