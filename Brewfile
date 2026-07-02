@@ -26,8 +26,6 @@ brew "fzf"
 brew "gcc"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
-# Interact with Google AI models from the command-line
-brew "antigravity-cli"
 # GitHub command-line tool
 brew "gh"
 # Distributed revision control system
@@ -104,6 +102,8 @@ brew "zsh"
 brew "zsh-completions"
 # View, print, and comment on PDF documents
 cask "adobe-acrobat-reader"
+# Interact with Google AI models from the command-line
+cask "antigravity-cli"
 # Application uninstaller
 cask "appcleaner"
 # Compact TeX distribution as alternative to the full TeX Live / MacTeX
