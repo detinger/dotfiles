@@ -75,8 +75,13 @@ install_ghostty() {
 install_latex() {
   header "LaTeX packages"
   if ! command -v tlmgr >/dev/null 2>&1; then
-    echo "BasicTeX/MacTeX (tlmgr) is not installed. Install it via Homebrew (basictex) first."
-    return 1
+    echo "tlmgr not found — installing BasicTeX via Homebrew..."
+    brew install --cask basictex
+    eval "$(/usr/libexec/path_helper)"
+    if ! command -v tlmgr >/dev/null 2>&1; then
+      echo "BasicTeX installed but tlmgr still not in PATH. Try opening a new shell and re-running."
+      return 1
+    fi
   fi
   zsh "$DOTFILES_DIR/scripts/install-latex.zsh"
 }
