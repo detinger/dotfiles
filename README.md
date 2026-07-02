@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal macOS setup for Homebrew packages, Zsh, Antidote plugins, and Starship.
+Personal macOS setup for Homebrew packages, Zsh, Antidote plugins, Starship, and Ghostty.
 
 The installer expects this repo to live at `~/dotfiles`.
 
@@ -91,14 +91,18 @@ cd ~/dotfiles
 exec zsh
 ```
 
-The script will:
+The script is interactive — it asks which components to install before doing anything:
 
-1. Install packages, apps, and VS Code extensions from `Brewfile`.
-2. Create `~/.config` if it does not exist.
-3. Back up existing `~/.zshrc` and `~/.zsh_plugins.txt` files with a timestamp suffix.
-4. Symlink `~/.zshrc` to `~/dotfiles/zsh/zshrc`.
-5. Symlink `~/.zsh_plugins.txt` to `~/dotfiles/zsh/zsh_plugins.txt`.
-6. Symlink `~/.config/starship.toml` to `~/dotfiles/starship/starship.toml`.
+| Component | What it does |
+|-----------|--------------|
+| Homebrew packages | Installs everything in `Brewfile` (CLI tools, apps, VS Code extensions) |
+| Zsh config | Backs up and symlinks `~/.zshrc` and `~/.zsh_plugins.txt` |
+| Git config | Symlinks `~/.gitconfig` |
+| Starship prompt | Symlinks `~/.config/starship.toml` (and `starship-vscode.toml` if present) |
+| Ghostty config | Copies `config.ghostty` to `~/.config/ghostty/config` |
+| LaTeX packages | Runs `scripts/install-latex.zsh` to install extra tlmgr packages (requires BasicTeX) |
+
+If a component fails, the script reports the error and continues with the rest.
 
 On first Zsh startup, `zsh/zshrc` builds `~/.zsh_plugins.zsh` from `~/.zsh_plugins.txt` with Antidote.
 
@@ -109,7 +113,7 @@ which brew
 which zsh
 which starship
 brew list antidote
-ls -la ~/.zshrc ~/.zsh_plugins.txt ~/.config/starship.toml
+ls -la ~/.zshrc ~/.zsh_plugins.txt ~/.gitconfig ~/.config/starship.toml
 ```
 
 Expected symlinks:
@@ -117,8 +121,11 @@ Expected symlinks:
 ```text
 ~/.zshrc -> ~/dotfiles/zsh/zshrc
 ~/.zsh_plugins.txt -> ~/dotfiles/zsh/zsh_plugins.txt
+~/.gitconfig -> ~/dotfiles/git/gitconfig
 ~/.config/starship.toml -> ~/dotfiles/starship/starship.toml
 ```
+
+Ghostty config is copied (not symlinked), so edit it directly at `~/.config/ghostty/config`.
 
 ## Daily maintenance
 
@@ -133,8 +140,7 @@ Update this repo after editing files:
 
 ```sh
 cd ~/dotfiles
-git status
-git add README Brewfile install.sh zsh starship
+git add Brewfile install.sh zsh starship git config.ghostty scripts
 git commit -m "Update dotfiles"
 git push
 ```
@@ -142,14 +148,16 @@ git push
 Regenerate the Brewfile from the current Mac:
 
 ```sh
-cd ~/dotfiles
-brew bundle dump --force --file Brewfile
+brew bundle dump --force --file ~/dotfiles/Brewfile
 ```
 
-## Important files
+## Files
 
-- `Brewfile`: Homebrew taps, CLI tools, apps, and VS Code extensions.
-- `install.sh`: Bootstrap script for packages and symlinks.
-- `zsh/zshrc`: Main Zsh configuration.
-- `zsh/zsh_plugins.txt`: Antidote plugin list.
-- `starship/starship.toml`: Starship prompt configuration.
+- `Brewfile` — Homebrew taps, CLI tools, apps, and VS Code extensions.
+- `install.sh` — Interactive bootstrap script.
+- `zsh/zshrc` — Main Zsh configuration.
+- `zsh/zsh_plugins.txt` — Antidote plugin list.
+- `starship/starship.toml` — Starship prompt configuration.
+- `git/gitconfig` — Git configuration.
+- `config.ghostty` — Ghostty terminal configuration.
+- `scripts/install-latex.zsh` — Installs extra LaTeX packages via tlmgr.

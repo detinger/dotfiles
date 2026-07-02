@@ -102,8 +102,6 @@ brew "zoxide"
 brew "zsh"
 # Additional completion definitions for zsh
 brew "zsh-completions"
-# Converts video, audio and images
-cask "adapter"
 # View, print, and comment on PDF documents
 cask "adobe-acrobat-reader"
 # Application uninstaller
@@ -185,12 +183,6 @@ vscode "jeff-hykin.polacode-2019"
 vscode "jock.svg"
 vscode "marp-team.marp-vscode"
 vscode "mdickin.markdown-shortcuts"
-vscode "ms-azuretools.vscode-containers"
-vscode "ms-python.debugpy"
-vscode "ms-python.isort"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-python.vscode-python-envs"
 vscode "ms-vscode.hexeditor"
 vscode "nhoizey.gremlins"
 vscode "openai.chatgpt"
