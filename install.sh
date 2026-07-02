@@ -85,7 +85,7 @@ install_latex() {
 printf "\n%sDotfiles installer%s\n" "$bold" "$reset"
 printf "Choose which components to install:\n\n"
 
-declare -A install_map
+typeset -A install_map
 
 ask "  Homebrew packages (Brewfile)"  "Y" && install_map[brew]=1     || install_map[brew]=0
 ask "  Zsh config (.zshrc)"           "Y" && install_map[zsh]=1      || install_map[zsh]=0
