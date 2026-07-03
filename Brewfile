@@ -1,13 +1,9 @@
-# C++ Common Libraries
-brew "abseil"
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
-# Cross-platform make
-brew "cmake"
 # Command-line interface for SQLite
 brew "sqlite"
 # Modern, maintained replacement for ls
@@ -22,8 +18,6 @@ brew "x265"
 brew "ffmpeg"
 # Command-line fuzzy finder written in Go
 brew "fzf"
-# GNU compiler collection
-brew "gcc"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
 # GitHub command-line tool
@@ -38,20 +32,10 @@ brew "graphviz"
 brew "htop"
 # Tools and libraries to manipulate images in select formats
 brew "imagemagick"
-# Kubernetes CLI To Manage Your Clusters In Style!
-brew "k9s"
-# Kubernetes command-line interface
-brew "kubernetes-cli"
-# Lazier way to manage everything docker
-brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.14"
-# Next-gen compiler infrastructure
-brew "llvm"
-# Backup your application settings and other important files to the cloud
-brew "mackup"
 # Easily convert Marp Markdown files into static HTML/CSS, PDF, PPT and images
 brew "marp-cli"
 # Run a Kubernetes cluster locally
@@ -60,8 +44,6 @@ brew "minikube"
 brew "mole"
 # Free (GNU) replacement for the Pico text editor
 brew "nano"
-# Ambitious Vim-fork focused on extensibility and agility
-brew "neovim"
 # Port scanning utility for large networks
 brew "nmap"
 # Swiss-army knife of markup format conversion
@@ -100,10 +82,6 @@ brew "zoxide"
 brew "zsh"
 # Additional completion definitions for zsh
 brew "zsh-completions"
-# View, print, and comment on PDF documents
-cask "adobe-acrobat-reader"
-# Interact with Google AI models from the command-line
-cask "antigravity-cli"
 # Application uninstaller
 cask "appcleaner"
 # Compact TeX distribution as alternative to the full TeX Live / MacTeX
@@ -142,12 +120,8 @@ cask "jasp"
 cask "obsidian"
 # Get up and running with large language models locally
 cask "ollama-app"
-# Document editor
-cask "onlyoffice"
 # Move and resize windows using keyboard shortcuts or snap areas
 cask "rectangle"
-# Remote access and connectivity software focused on security
-cask "teamviewer"
 # Messaging app with a focus on speed and security
 cask "telegram"
 # Open-source BitTorrent client
@@ -156,8 +130,6 @@ cask "transmission"
 cask "transmit"
 # Open-source code editor
 cask "visual-studio-code"
-# GPU-accelerated cross-platform terminal emulator and multiplexer
-cask "wezterm"
 # Multiplayer code editor
 cask "zed"
 # Collect, organise, cite, and share research sources
