@@ -3,6 +3,15 @@ set -euo pipefail
 
 DOTFILES_DIR="$HOME/dotfiles"
 
+# ── dry-run flag ──────────────────────────────────────────────────────────────
+DRY_RUN=0
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run|-n) DRY_RUN=1 ;;
+    *) printf "Unknown option: %s\n" "$arg"; exit 1 ;;
+  esac
+done
+
 # ── colours ───────────────────────────────────────────────────────────────────
 bold=$(tput bold 2>/dev/null || true)
 reset=$(tput sgr0 2>/dev/null || true)
@@ -23,12 +32,18 @@ header() { printf "\n%s==> %s%s\n" "$bold$cyan" "$1" "$reset"; }
 ok()     { printf "%s✓ %s%s\n" "$green" "$1" "$reset"; }
 skip()   { printf "%s- %s (skipped)%s\n" "$yellow" "$1" "$reset"; }
 error()  { printf "%s✗ %s failed — continuing%s\n" "$(tput setaf 1 2>/dev/null || true)" "$1" "$reset"; }
+dryrun() { printf "%s[DRY RUN] %s%s\n" "$yellow" "$1" "$reset"; }
 
 symlink() {
   local src="$1" dst="$2"
-  mkdir -p "$(dirname "$dst")"
-  ln -sf "$src" "$dst"
-  ok "Linked $dst → $src"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    [ -e "$src" ] || { dryrun "MISSING source: $src"; return; }
+    dryrun "Would link $dst → $src"
+  else
+    mkdir -p "$(dirname "$dst")"
+    ln -sf "$src" "$dst"
+    ok "Linked $dst → $src"
+  fi
 }
 
 # ── component functions ───────────────────────────────────────────────────────
@@ -38,14 +53,25 @@ install_homebrew_packages() {
     echo "Homebrew is not installed. Visit https://brew.sh to install it first."
     return 1
   fi
-  brew bundle --file="$DOTFILES_DIR/Brewfile"
-  ok "Homebrew packages installed"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    dryrun "Would run: brew bundle --file=$DOTFILES_DIR/Brewfile"
+    dryrun "Checking what is missing or outdated:"
+    brew bundle check --file="$DOTFILES_DIR/Brewfile" --verbose || true
+  else
+    brew bundle --file="$DOTFILES_DIR/Brewfile"
+    ok "Homebrew packages installed"
+  fi
 }
 
 install_zsh() {
   header "Zsh config"
-  [ -f "$HOME/.zshrc" ]           && cp "$HOME/.zshrc"           "$HOME/.zshrc.backup.$(date +%Y%m%d%H%M%S)"
-  [ -f "$HOME/.zsh_plugins.txt" ] && cp "$HOME/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt.backup.$(date +%Y%m%d%H%M%S)"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    [ -f "$HOME/.zshrc" ]           && dryrun "Would backup ~/.zshrc"
+    [ -f "$HOME/.zsh_plugins.txt" ] && dryrun "Would backup ~/.zsh_plugins.txt"
+  else
+    [ -f "$HOME/.zshrc" ]           && cp "$HOME/.zshrc"           "$HOME/.zshrc.backup.$(date +%Y%m%d%H%M%S)"
+    [ -f "$HOME/.zsh_plugins.txt" ] && cp "$HOME/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt.backup.$(date +%Y%m%d%H%M%S)"
+  fi
   symlink "$DOTFILES_DIR/zsh/zshrc"           "$HOME/.zshrc"
   symlink "$DOTFILES_DIR/zsh/zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
 }
@@ -67,13 +93,26 @@ install_starship() {
 
 install_ghostty() {
   header "Ghostty config"
-  mkdir -p "$HOME/.config/ghostty"
-  cp "$DOTFILES_DIR/config.ghostty" "$HOME/.config/ghostty/config"
-  ok "Copied config.ghostty → ~/.config/ghostty/config"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    [ -e "$DOTFILES_DIR/config.ghostty" ] || { dryrun "MISSING source: $DOTFILES_DIR/config.ghostty"; return; }
+    dryrun "Would copy config.ghostty → ~/.config/ghostty/config"
+  else
+    mkdir -p "$HOME/.config/ghostty"
+    cp "$DOTFILES_DIR/config.ghostty" "$HOME/.config/ghostty/config"
+    ok "Copied config.ghostty → ~/.config/ghostty/config"
+  fi
 }
 
 install_latex() {
   header "LaTeX packages"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    if ! command -v tlmgr >/dev/null 2>&1; then
+      dryrun "tlmgr not found — would install BasicTeX via Homebrew first"
+    else
+      dryrun "Would run: scripts/install-latex.zsh"
+    fi
+    return
+  fi
   if ! command -v tlmgr >/dev/null 2>&1; then
     echo "tlmgr not found — installing BasicTeX via Homebrew..."
     brew install --cask basictex
@@ -87,7 +126,9 @@ install_latex() {
 }
 
 # ── interactive selection ─────────────────────────────────────────────────────
-printf "\n%sDotfiles installer%s\n" "$bold" "$reset"
+printf "\n%sDotfiles installer%s" "$bold" "$reset"
+[ "$DRY_RUN" -eq 1 ] && printf "%s  [DRY RUN — nothing will be changed]%s" "$yellow" "$reset"
+printf "\n"
 printf "Choose which components to install:\n\n"
 
 do_brew=0
@@ -129,9 +170,12 @@ if [ "$any" -eq 0 ]; then
 fi
 
 printf "\n"
-ask "Proceed with installation?" "Y" || { echo "Aborted."; exit 0; }
-
-mkdir -p "$HOME/.config"
+if [ "$DRY_RUN" -eq 1 ]; then
+  ask "Proceed with dry run?" "Y" || { echo "Aborted."; exit 0; }
+else
+  ask "Proceed with installation?" "Y" || { echo "Aborted."; exit 0; }
+  mkdir -p "$HOME/.config"
+fi
 
 # ── run selected components ───────────────────────────────────────────────────
 run_if() {
@@ -150,5 +194,9 @@ run_if "$do_starship" install_starship           "Starship prompt"
 run_if "$do_ghostty"  install_ghostty            "Ghostty config"
 run_if "$do_latex"    install_latex              "LaTeX packages"
 
-printf "\n%sDone.%s\n" "$bold$green" "$reset"
-[ "$do_zsh" -eq 1 ] && echo "Run: exec zsh"
+if [ "$DRY_RUN" -eq 1 ]; then
+  printf "\n%sDry run complete — no changes were made.%s\n" "$bold$yellow" "$reset"
+else
+  printf "\n%sDone.%s\n" "$bold$green" "$reset"
+  [ "$do_zsh" -eq 1 ] && echo "Run: exec zsh"
+fi

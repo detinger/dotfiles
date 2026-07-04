@@ -39,43 +39,12 @@ brew --version
 
 ### 4. Set up GitHub access
 
-Use one of these options.
-
-SSH clone:
-
-```sh
-ssh-keygen -t ed25519 -C "your-email@example.com"
-eval "$(ssh-agent -s)"
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-pbcopy < ~/.ssh/id_ed25519.pub
-```
-
-Add the copied public key to GitHub:
-
-```text
-GitHub -> Settings -> SSH and GPG keys -> New SSH key
-```
-
-Then test it:
-
-```sh
-ssh -T git@github.com
-```
-
-HTTPS clone alternative:
-
 ```sh
 brew install gh
 gh auth login
 ```
 
 ### 5. Clone this repo
-
-SSH:
-
-```sh
-git clone git@github.com:detinger/dotfiles.git ~/dotfiles
-```
 
 HTTPS:
 
@@ -89,6 +58,12 @@ git clone https://github.com/detinger/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./install.sh
 exec zsh
+```
+
+Pass `--dry-run` (or `-n`) to preview what would happen without changing anything:
+
+```sh
+./install.sh --dry-run
 ```
 
 The script is interactive — it asks which components to install before doing anything:
@@ -133,7 +108,7 @@ Update Homebrew packages and apps:
 
 ```sh
 brew update && brew upgrade
-brew cleanup
+brew cleanup --prune=all
 ```
 
 Update this repo after editing files:
