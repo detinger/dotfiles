@@ -121,18 +121,42 @@ alias dud='du -d 1 -h'
 command -v duf >/dev/null 2>&1 || alias duf='du -sh'
 alias t='tail -f'
 
-# caffeine
-caffe() {
-  local hours=$1
-  local seconds=$((hours * 3600))
-  echo "☕ Keeping Mac awake for ${hours} hour(s)..."
-  caffeinate -t "$seconds" &
-  echo "PID: $!"
-}
-
 # other aliases
 alias h='history'
 alias hgrep='fc -El 0 | grep'
 alias help='man'
 alias p='ps -f'
 
+# Keep Mac awake for X hours
+caffe() {
+  local hours=${1:-1}
+  local seconds=$((hours * 3600))
+
+  echo "☕ Keeping Mac awake for ${hours} hour(s)..."
+  caffeinate -t "$seconds" &
+  echo "Started (PID: $!)"
+}
+
+# Show caffeinate status
+caffestatus() {
+  local pids
+  pids=$(pgrep -x caffeinate)
+
+  if [[ -z "$pids" ]]; then
+    echo "😴 No caffeinate session is running."
+    return
+  fi
+
+  echo "☕ Active caffeinate session(s):"
+  ps -o pid=,etime=,command= -p $pids
+}
+
+# Stop all caffeinate sessions
+caffestop() {
+  if pgrep -x caffeinate >/dev/null; then
+    killall caffeinate
+    echo "🛑 All caffeinate sessions stopped."
+  else
+    echo "😴 No caffeinate session is running."
+  fi
+}
