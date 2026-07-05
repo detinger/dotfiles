@@ -121,6 +121,11 @@ alias dud='du -d 1 -h'
 command -v duf >/dev/null 2>&1 || alias duf='du -sh'
 alias t='tail -f'
 
+# caffeine
+alias caffe1='caffeinate -t 3600'
+alias caffe10='caffeinate -t 36000'
+alias caffe24='caffeinate -t 86400'
+
 # other aliases
 alias h='history'
 alias hgrep='fc -El 0 | grep'
