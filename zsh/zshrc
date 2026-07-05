@@ -122,9 +122,13 @@ command -v duf >/dev/null 2>&1 || alias duf='du -sh'
 alias t='tail -f'
 
 # caffeine
-alias caffe1='caffeinate -t 3600'
-alias caffe10='caffeinate -t 36000'
-alias caffe24='caffeinate -t 86400'
+caffe() {
+  local hours=$1
+  local seconds=$((hours * 3600))
+  echo "☕ Keeping Mac awake for ${hours} hour(s)..."
+  caffeinate -t "$seconds" &
+  echo "PID: $!"
+}
 
 # other aliases
 alias h='history'
