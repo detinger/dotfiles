@@ -82,6 +82,8 @@ brew "zoxide"
 brew "zsh"
 # Additional completion definitions for zsh
 brew "zsh-completions"
+# Image editing and design software
+cask "affinity"
 # Application uninstaller
 cask "appcleaner"
 # Compact TeX distribution as alternative to the full TeX Live / MacTeX
@@ -90,6 +92,10 @@ cask "basictex"
 cask "bruno"
 # Design tool
 cask "canva"
+# OpenAI's official ChatGPT desktop app
+cask "chatgpt"
+# Anthropic's official Claude AI desktop app
+cask "claude"
 # Terminal-based AI coding assistant
 cask "claude-code"
 # OpenAI's coding agent that runs in your terminal
@@ -98,6 +104,8 @@ cask "codex"
 cask "db-browser-for-sqlite"
 # Online diagram software
 cask "drawio"
+# Cloud storage and file sync
+cask "dropbox"
 # Collaborative team software
 cask "figma"
 # Web browser
@@ -108,6 +116,8 @@ cask "font-sf-mono-nerd-font-ligaturized"
 cask "geekbench"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Web browser
+cask "google-chrome"
 # Open-source video transcoder
 cask "handbrake-app"
 # Free and open-source media player
@@ -116,6 +126,8 @@ cask "iina"
 cask "inkscape"
 # Statistical analysis application
 cask "jasp"
+# Meet, chat, call, and collaborate in just one place
+cask "microsoft-teams"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Get up and running with large language models locally
@@ -132,6 +144,8 @@ cask "transmit"
 cask "visual-studio-code"
 # Multiplayer code editor
 cask "zed"
+# Video communication and virtual meeting platform
+cask "zoom"
 # Collect, organise, cite, and share research sources
 cask "zotero"
 # Reaper is a complete digital audio production application for Windows and macOS

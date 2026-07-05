@@ -58,7 +58,7 @@ install_homebrew_packages() {
     dryrun "Checking what is missing or outdated:"
     brew bundle check --file="$DOTFILES_DIR/Brewfile" --verbose || true
   else
-    brew bundle --file="$DOTFILES_DIR/Brewfile"
+    brew bundle --file="$DOTFILES_DIR/Brewfile" --verbose
     ok "Homebrew packages installed"
   fi
 }
