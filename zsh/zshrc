@@ -160,3 +160,9 @@ caffestop() {
     echo "😴 No caffeinate session is running."
   fi
 }
+
+# Tailscale command wrapper
+tailscale() {
+  /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
+}
+
