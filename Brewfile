@@ -32,6 +32,8 @@ brew "graphviz"
 brew "htop"
 # Tools and libraries to manipulate images in select formats
 brew "imagemagick"
+# Test local area network speed
+brew "iperf3"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Interpreted, interactive, object-oriented programming language

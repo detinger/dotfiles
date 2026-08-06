@@ -160,4 +160,3 @@ caffestop() {
     echo "😴 No caffeinate session is running."
   fi
 }
-export PATH="/Applications/Tailscale.app/Contents/MacOS:$PATH"
