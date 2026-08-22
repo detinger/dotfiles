@@ -166,3 +166,5 @@ tailscale() {
   /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
 }
 
+alias net='networkQuality'
+
