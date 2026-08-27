@@ -144,6 +144,8 @@ cask "transmission"
 cask "transmit"
 # Open-source code editor
 cask "visual-studio-code"
+# Swiss army knife for macOS
+cask "vorssaint"
 # Multiplayer code editor
 cask "zed"
 # Video communication and virtual meeting platform
