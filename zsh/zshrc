@@ -135,3 +135,5 @@ tailscale() {
 
 alias net='networkQuality'
 
+alias mixpilot=/Users/etinger/Documents/mix-pilot/start.sh  # MIXPILOT start command
+alias apogee='ps -p "$(pgrep -f ApogeeGlue.app/Contents/MacOS/ApogeeGlue | head -1)" -o pid,%cpu,time,command'
