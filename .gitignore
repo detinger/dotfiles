@@ -3,3 +3,8 @@
 .zcompdump*
 *.backup*
 secrets.zsh
+
+# Only share the reviewed Zed configuration files.
+/zed/*
+!/zed/settings.json
+!/zed/keymap.json

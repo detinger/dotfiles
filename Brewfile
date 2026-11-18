@@ -1,3 +1,5 @@
+tap "rhettbull/osxphotos"
+
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -48,6 +50,8 @@ brew "mole"
 brew "nano"
 # Port scanning utility for large networks
 brew "nmap"
+# Query and export Apple Photos libraries
+brew "rhettbull/osxphotos/osxphotos", trusted: true
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pandoc filter for numbering and cross-referencing
@@ -144,7 +148,7 @@ cask "transmission"
 cask "transmit"
 # Open-source code editor
 cask "visual-studio-code"
-# Swiss army knife for macOS
+# Menu bar tools for keeping the Mac awake, monitoring the system, and mixing volume
 cask "vorssaint"
 # Multiplayer code editor
 cask "zed"
@@ -180,4 +184,5 @@ vscode "shd101wyy.markdown-preview-enhanced"
 vscode "shuworks.vscode-table-formatter"
 vscode "streetsidesoftware.code-spell-checker"
 vscode "stxr.iconfont-preview"
+vscode "tomoki1207.pdf"
 vscode "yzhang.markdown-all-in-one"

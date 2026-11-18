@@ -40,8 +40,8 @@ symlink() {
     [ -e "$src" ] || { dryrun "MISSING source: $src"; return; }
     dryrun "Would link $dst → $src"
   else
-    mkdir -p "$(dirname "$dst")"
-    ln -sf "$src" "$dst"
+    mkdir -p "$(dirname "$dst")" || return 1
+    ln -sf "$src" "$dst" || return 1
     ok "Linked $dst → $src"
   fi
 }
@@ -103,6 +103,37 @@ install_ghostty() {
   fi
 }
 
+install_zed() {
+  header "Zed settings and keymap"
+  local file src dst backup
+  for file in settings.json keymap.json; do
+    src="$DOTFILES_DIR/zed/$file"
+    dst="$HOME/.config/zed/$file"
+    if [[ ! -f "$src" ]]; then
+      printf 'Missing Zed file: %s\n' "$src" >&2
+      return 1
+    fi
+    if [[ "$src" -ef "$dst" ]]; then
+      ok "Already linked $dst"
+      continue
+    fi
+    if [[ -d "$dst" || ( -e "$dst" && ! -f "$dst" && ! -L "$dst" ) ]]; then
+      printf 'Expected a file at %s\n' "$dst" >&2
+      return 1
+    fi
+    if [[ -e "$dst" || -L "$dst" ]]; then
+      if [[ "$DRY_RUN" -eq 1 ]]; then
+        dryrun "Would back up $dst before linking"
+      else
+        backup=$(mktemp "$dst.backup.XXXXXXXX") || return 1
+        cp -pP "$dst" "$backup" || return 1
+        ok "Saved $backup"
+      fi
+    fi
+    symlink "$src" "$dst" || return 1
+  done
+}
+
 install_latex() {
   header "LaTeX packages"
   if [ "$DRY_RUN" -eq 1 ]; then
@@ -137,6 +168,7 @@ do_git=0
 do_starship=0
 do_ghostty=0
 do_latex=0
+do_zed=0
 
 ask "  Homebrew packages (Brewfile)"  "Y" && do_brew=1
 ask "  Zsh config (.zshrc)"           "Y" && do_zsh=1
@@ -144,6 +176,7 @@ ask "  Git config (.gitconfig)"       "Y" && do_git=1
 ask "  Starship prompt"               "Y" && do_starship=1
 ask "  Ghostty config"                "Y" && do_ghostty=1
 ask "  LaTeX packages (tlmgr)"        "N" && do_latex=1
+ask "  Zed settings and keymap"       "Y" && do_zed=1
 
 # ── summary + confirm ─────────────────────────────────────────────────────────
 printf "\n%sSelected components:%s\n" "$bold" "$reset"
@@ -163,6 +196,7 @@ show_component "$do_git"      "Git config"
 show_component "$do_starship" "Starship prompt"
 show_component "$do_ghostty"  "Ghostty config"
 show_component "$do_latex"    "LaTeX packages"
+show_component "$do_zed"      "Zed settings and keymap"
 
 if [ "$any" -eq 0 ]; then
   echo "Nothing selected. Exiting."
@@ -193,10 +227,13 @@ run_if "$do_git"      install_git               "Git config"
 run_if "$do_starship" install_starship           "Starship prompt"
 run_if "$do_ghostty"  install_ghostty            "Ghostty config"
 run_if "$do_latex"    install_latex              "LaTeX packages"
+run_if "$do_zed"      install_zed                "Zed settings and keymap"
 
 if [ "$DRY_RUN" -eq 1 ]; then
   printf "\n%sDry run complete — no changes were made.%s\n" "$bold$yellow" "$reset"
 else
   printf "\n%sDone.%s\n" "$bold$green" "$reset"
-  [ "$do_zsh" -eq 1 ] && echo "Run: exec zsh"
+  if [ "$do_zsh" -eq 1 ]; then
+    echo "Run: exec zsh"
+  fi
 fi
