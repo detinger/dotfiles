@@ -5,8 +5,6 @@ export PATH="$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
 
-DEFAULT_USER=$(whoami)
-
 # Completions
 fpath=(
   /opt/homebrew/share/zsh/site-functions
@@ -31,15 +29,11 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
 
-
-
 autoload -Uz compinit
 compinit -C
 
-
 # Antidote plugins
-
-source "$(brew --prefix)/opt/antidote/share/antidote/antidote.zsh"
+source "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/antidote/share/antidote/antidote.zsh"
 
 if [[ ! -f ~/.zsh_plugins.zsh || ~/.zsh_plugins.txt -nt ~/.zsh_plugins.zsh || ! -d ~/Library/Caches/antidote ]]; then
   rm -f ~/.zsh_plugins.zsh ~/.zsh_plugins.zsh.zwc
@@ -50,16 +44,33 @@ source ~/.zsh_plugins.zsh
 
 eval "$(zoxide init zsh)"
 
+# Claude / Codex desktop app terminals have no Nerd Font, so they get
+# IS_PLAIN_TERM (plain prompt + no eza icons). __CFBundleIdentifier isn't
+# passed to their shells, so walk the process tree instead.
+# Codex ships inside ChatGPT.app.
+_in_desktop_app_term() {
+  [[ "$__CFBundleIdentifier" == (com.openai.codex|com.anthropic.claudefordesktop) ]] && return 0
+  local -A parent cmd
+  local p pp c
+  while read -r p pp c; do parent[$p]=$pp; cmd[$p]=$c; done < <(ps -axo pid=,ppid=,comm=)
+  p=$PPID
+  while (( p > 1 )) && [[ -n "${cmd[$p]}" ]]; do
+    [[ "${cmd[$p]}" == */(Claude|Codex|ChatGPT).app/* ]] && return 0
+    p=${parent[$p]}
+  done
+  return 1
+}
 
-# Codex / Claude desktop app terminals: no Nerd Font/ligatures, so use a plain prompt
-if [[ "$__CFBundleIdentifier" == (com.openai.codex|com.anthropic.claudefordesktop) ]]; then
-  IS_PLAIN_TERM=1
+_in_desktop_app_term && IS_PLAIN_TERM=1
+unfunction _in_desktop_app_term
+
+# Plain prompt for desktop apps, Apple Terminal and VS Code; starship elsewhere
+if [[ -n "$IS_PLAIN_TERM" || "$TERM_PROGRAM" == (Apple_Terminal|vscode) ]]; then
   PROMPT='%F{blue}%~%f %F{green}❯%f '
   RPROMPT=''
-elif [[ "$TERM_PROGRAM" != "Apple_Terminal" && "$TERM_PROGRAM" != "vscode" ]]; then
+else
   eval "$(starship init zsh)"
 fi
-
 
 # environment variables
 export HOMEBREW_NO_ASK=1
@@ -123,6 +134,8 @@ alias gstp='git stash pop'
 alias brews='brew list'
 alias bubu='brew update && brew upgrade'
 alias bcbc='brew cleanup --prune=all'
+# everything: update, upgrade incl. self-updating casks, drop unused deps, clean up
+alias baba='brew update && brew upgrade --greedy && brew autoremove && brew cleanup --prune=all'
 
 # file handling
 alias rm='rm -i'
@@ -139,13 +152,12 @@ alias hgrep='fc -El 0 | grep'
 alias help='man'
 alias p='ps -f'
 
-
 # Tailscale command wrapper
 tailscale() {
   /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
 }
 
+# Misc commands
 alias net='networkQuality'
-
 alias mixpilot=/Users/etinger/Documents/mix-pilot/start.sh  # MIXPILOT start command
 alias apogee='ps -p "$(pgrep -f ApogeeGlue.app/Contents/MacOS/ApogeeGlue | head -1)" -o pid,%cpu,time,command'
