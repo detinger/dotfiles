@@ -50,6 +50,7 @@
   "disable_ai": false,
   "cli_default_open_behavior": "existing_window",
   "edit_predictions": {
+    "button": false,
     "provider": "copilot"
   },
   "proxy": "",
@@ -82,7 +83,11 @@
     "light": "Zed (Default)",
     "dark": "Zed (Default)",
   },
-  "theme": "Tokyo Night",
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Tokyo Night"
+  },
   "ui_font_size": 18.0,
   "ui_font_family": "SF Pro",
   "buffer_font_size": 19.0,

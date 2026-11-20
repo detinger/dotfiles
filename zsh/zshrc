@@ -51,7 +51,12 @@ source ~/.zsh_plugins.zsh
 eval "$(zoxide init zsh)"
 
 
-if [[ "$TERM_PROGRAM" != "Apple_Terminal" && "$TERM_PROGRAM" != "vscode" ]]; then
+# Codex / Claude desktop app terminals: no Nerd Font/ligatures, so use a plain prompt
+if [[ "$__CFBundleIdentifier" == (com.openai.codex|com.anthropic.claudefordesktop) ]]; then
+  IS_PLAIN_TERM=1
+  PROMPT='%F{blue}%~%f %F{green}❯%f '
+  RPROMPT=''
+elif [[ "$TERM_PROGRAM" != "Apple_Terminal" && "$TERM_PROGRAM" != "vscode" ]]; then
   eval "$(starship init zsh)"
 fi
 
@@ -74,6 +79,13 @@ alias tree='eza -T --icons --git'
 alias tree1='eza -T --icons --git --level=1'
 alias tree2='eza -T --icons --git --level=2'
 alias tree3='eza -T --icons --git --level=3'
+
+# drop Nerd Font icons where the font can't render them
+if [[ -n "$IS_PLAIN_TERM" ]]; then
+  for a in ll lt tree tree1 tree2 tree3; do
+    alias $a="${${aliases[$a]}// --icons/}"
+  done
+fi
 
 # directories
 alias c='z'
