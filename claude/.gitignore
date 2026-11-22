@@ -1,0 +1,5 @@
+# Never commit Claude credentials or session data
+*.credentials.json
+.credentials.json
+session*
+auth*

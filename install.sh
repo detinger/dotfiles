@@ -134,6 +134,23 @@ install_zed() {
   done
 }
 
+install_claude() {
+  header "Claude Code multi-account"
+  local work_dir="$HOME/.claude-work"
+  local src="$DOTFILES_DIR/claude/work-settings.json"
+  local dst="$work_dir/settings.json"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    [ -d "$work_dir" ] || dryrun "Would create $work_dir"
+    dryrun "Would link $dst → $src"
+    dryrun "Note: run 'claude-work' and log in manually with your Team account"
+    return
+  fi
+  mkdir -p "$work_dir"
+  ok "Created $work_dir"
+  symlink "$src" "$dst"
+  printf "%s  → Run 'claude-work' and log in with your Team account%s\n" "$yellow" "$reset"
+}
+
 install_latex() {
   header "LaTeX packages"
   if [ "$DRY_RUN" -eq 1 ]; then
@@ -169,6 +186,7 @@ do_starship=0
 do_ghostty=0
 do_latex=0
 do_zed=0
+do_claude=0
 
 ask "  Homebrew packages (Brewfile)"  "Y" && do_brew=1
 ask "  Zsh config (.zshrc)"           "Y" && do_zsh=1
@@ -177,6 +195,7 @@ ask "  Starship prompt"               "Y" && do_starship=1
 ask "  Ghostty config"                "Y" && do_ghostty=1
 ask "  LaTeX packages (tlmgr)"        "N" && do_latex=1
 ask "  Zed settings and keymap"       "Y" && do_zed=1
+ask "  Claude Code multi-account"     "Y" && do_claude=1
 
 # ── summary + confirm ─────────────────────────────────────────────────────────
 printf "\n%sSelected components:%s\n" "$bold" "$reset"
@@ -197,6 +216,7 @@ show_component "$do_starship" "Starship prompt"
 show_component "$do_ghostty"  "Ghostty config"
 show_component "$do_latex"    "LaTeX packages"
 show_component "$do_zed"      "Zed settings and keymap"
+show_component "$do_claude"   "Claude Code multi-account"
 
 if [ "$any" -eq 0 ]; then
   echo "Nothing selected. Exiting."
@@ -227,7 +247,8 @@ run_if "$do_git"      install_git               "Git config"
 run_if "$do_starship" install_starship           "Starship prompt"
 run_if "$do_ghostty"  install_ghostty            "Ghostty config"
 run_if "$do_latex"    install_latex              "LaTeX packages"
-run_if "$do_zed"      install_zed                "Zed settings and keymap"
+run_if "$do_zed"      install_zed               "Zed settings and keymap"
+run_if "$do_claude"   install_claude            "Claude Code multi-account"
 
 if [ "$DRY_RUN" -eq 1 ]; then
   printf "\n%sDry run complete — no changes were made.%s\n" "$bold$yellow" "$reset"
